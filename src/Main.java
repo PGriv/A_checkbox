@@ -9,14 +9,14 @@ import javafx.geometry.*;
 
 
 public class Main extends Application{
-    Label username;
+    Label username, photo;
     Label password;
     Label role, lbllanguage ,lblbirth;
-    TextField txtuser;
+    TextField txtuser, userphoto;
     TextField txtpass;
     ComboBox<String> language;
     CheckBox[] checkBoxes;
-    Button btn1, btn2;
+    Button btn1, btn2, btnupload;
     DatePicker datePicker;
 
     RadioButton radio1, radio2;
@@ -70,6 +70,28 @@ public class Main extends Application{
         grid.add(language,1,3);
         GridPane.setHalignment(language, HPos.LEFT);
         GridPane.setValignment(language, VPos.CENTER);
+        
+        photo = new Label("Photo of yourself:");
+        grid.add(photo,0,4);
+
+        userphoto = new TextField("Choose the path to upload the photo");
+        userphoto.setPrefWidth(200);
+        grid.add(userphoto,1,4);
+
+        btnupload = new Button("Upload");
+        btnupload.setPrefWidth(100);
+        grid.add(btnupload,2,4);
+        btnupload.setOnAction(e->{
+            try {
+                FileChooser fc = new FileChooser();
+                fc.setInitialDirectory(new File("C:\\"));
+                fc.getExtensionFilters().addAll((new FileChooser.ExtensionFilter("PNG","*.png")));
+                File f = fc.showOpenDialog(stage);
+                userphoto.setText(f.getPath());
+            }catch (NullPointerException ob){
+                System.out.println("No file picked");
+            }
+        });
 
         checkBoxes = new CheckBox[2];
 
@@ -85,11 +107,11 @@ public class Main extends Application{
         checkBoxes[0].setOnAction(e->{System.out.println(checkBoxes[0].isSelected());});
         checkBoxes[1].setOnAction(e->{ System.out.println(checkBoxes[1].isSelected()+ ", "+ checkBoxes[1].isIndeterminate());});
 
-        grid.add(checkBoxes[0],1,4);
+        grid.add(checkBoxes[0],1,5);
         GridPane.setHalignment(checkBoxes[0],HPos.LEFT);
         GridPane.setValignment(checkBoxes[0],VPos.CENTER);
 
-        grid.add(checkBoxes[1],1,5);
+        grid.add(checkBoxes[1],1,6);
         GridPane.setHalignment(checkBoxes[1],HPos.LEFT);
         GridPane.setValignment(checkBoxes[1],VPos.CENTER);
 
@@ -110,7 +132,7 @@ public class Main extends Application{
         pane.getChildren().addAll(btn1,btn2);
         pane.setAlignment(Pos.CENTER);
         pane.setSpacing(10);
-        grid.add(pane,0,6);
+        grid.add(pane,0,7);
         GridPane.setColumnSpan(pane, 2);
         GridPane.setHalignment(pane, HPos.CENTER);
         GridPane.setValignment(pane, VPos.CENTER);
@@ -122,8 +144,8 @@ public class Main extends Application{
         radio2.setToggleGroup(toggleGroup);
         /*radio1.setOnAction(e->{System.out.println("The gender is: "+ radio1.getText());});
         radio2.setOnAction(e->{System.out.println("The gender is: "+ radio2.getText());});*/
-        grid.add(radio1,1,4);
-        grid.add(radio2,1,5);
+        grid.add(radio1,1,5);
+        grid.add(radio2,1,6);
         GridPane.setHalignment(radio1, HPos.CENTER);
         GridPane.setValignment(radio1,VPos.CENTER);
         GridPane.setHalignment(radio2, HPos.CENTER);
@@ -132,8 +154,8 @@ public class Main extends Application{
 
         Scene scene = new Scene(grid);
         stage.setScene(scene);
-        stage.setHeight(250);
-        stage.setWidth(450);
+        stage.setHeight(270);
+        stage.setWidth(530);
         stage.setTitle("CHECK BOXES");
 
         stage.show();
